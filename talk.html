@@ -63,10 +63,10 @@ Steve Klabnik - "Rust is more than safety" end of 2016 post
 
 # Why might a Rubyist be interested? 
 
-* Cargo
-* Crates
+* Cargo & Crates
 * Expressive syntax 
 * Low level made accessible
+
 <img src="assets/cargo.png" width="500">
 
 ???
@@ -151,9 +151,11 @@ fn main() {
 
 Useful return types.
 
+Generics. Like duck-typing, but for static languages. Mono-morphization.
+
 Woo pattern matching! Case analysis is the ONLY way to get a result out of an Option type, forcing programmer to be exhaustive.
 
-None and Some are both members of a simple enum (Option) defined in the standard library.
+In Rust source: None and Some are both members of a simple enum (Option) defined in the standard library.
 
 Can just call .unwrap() but that's like saying “Give me the result of the computation, and if there was an error, panic and stop the program.”
 
@@ -184,11 +186,13 @@ Traits allow behavior to be defined separately to the data type. The implementat
 
 Example here makes obvious an implementation for a Square data type.
 
-Like polymorphism in ruby, but correct implementation is inlined by the compiler.
+Like polymorphism in ruby, but correct implementation is inlined by the compiler. Like with generics.
 
 Speaking of polymorphism and OO concepts, how about inheritance?
 
 By not having inheritance the language is limited in some sense, but it makes the frequent 'inheritance vs composition' decisions you need to make in Ruby unnecessary.
+
+Considering implementing some of the POODR bicycle examples in Rust to help better understand.
 
 ---
 
@@ -200,6 +204,10 @@ class: center, middle
 
 Bits of Rust in firefox, maybe show example
 
+Rust media parser shipping in Firefox since July 2016. End user would not have noticed difference but extra security from malicious media, through type safety.
+
+Get involved, google 'mozilla oxidation'
+
 ---
 
 # Ownership and borrowing 
@@ -208,13 +216,15 @@ Data is moved or 'borrowed' (by reference) when it is sent to a function
 
 ???
 
+This is where the real power of the language is. What is the price you usually pay when your language doesn't have GC?
+
+Taking memory management task away from the developer without requiring GC like Ruby.
+
 Data is moved or borrowed (in example earlier we moved shrug_name to the greet method)
 
 memory is deallocated when the owning scope is finished - the data is gone
 
-unlimited immutable references
-
-max one mutable reference
+references: unlimited immutable references -- max one mutable reference
 
 lifetimes: can be explicit for how long data lives
 
@@ -249,7 +259,7 @@ By implementing Send trait we know the type can safely move between threads, use
 
 The Sync trait tells us the type can be used safely by reference from multiple threads
 
-Other options for concurrency include channels, and atomic reference counting
+Other options for concurrency include channels, atomic reference counting, and futures for composing async behaviour like promises.
 
 http://areweconcurrentyet.com/
 
@@ -269,7 +279,7 @@ pub extern "C" fn fast_blank(buf: Buf) -> bool {
 
 ???
 
-Most data we are working with will be kept on the stack unless the type requires heap allocation. Big difference with Ruby, unfair to compare.
+Most data we are working with will be kept on the stack (and passed by reference) unless the type requires heap allocation. Big difference with Ruby, unfair to compare.
 
 fast_blank: We can get the performance of C with rust, and use to speed op our Ruby apps without the safety issues.
 
